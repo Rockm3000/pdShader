@@ -1,1 +1,1 @@
-"# pdShader" 
+A "shader" for Shovel Knight Pocket Dungeon. It colours all playable characters and their portraits, assembles sprite sheets, creates icons for The Spriters Resource, and assembles all enemy portraits. To use, place inside folder with all PD sprites extracted, then run.
