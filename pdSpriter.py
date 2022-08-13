@@ -79,7 +79,7 @@ for f in os.listdir():
             #(f == "sPortraitShovelKnightPalette_0.png" and not file.startswith("sShovelKnightPortraitB"))
             #Loop through every sprite in the current directory, checking that it's not a palette, and that (the filename starts the same as the current folder's name, or the special case for mona where the file isn't "MonaKnight", or the file is a hub sprite) and "Floot" is not in the file.
             for file in os.listdir():
-                if "Palette" not in file and (file.startswith(f"{f[0:f.find('Palette')]}") or file.startswith(f"sHub{f[1:f.find('Palette')]}") or (f == "sPortraitMonaKnightPalette_0.png" and file.startswith("sPortraitMona"))) and "Floot" not in file and not file.startswith("sShovelKnightPortraitB"):
+                if "Palette" not in file and (file.startswith(f"{f[0:f.find('Palette')]}") or file.startswith(f"sHub{f[1:f.find('Palette')]}") or (f == "sPortraitMonaKnightPalette_0.png" and file.startswith("sPortraitMona"))) and "Floot" not in file and not file.startswith("sShovelKnightPortraitB") and not file.startswith("sPropellerKnightB_portrait") and not file.startswith("sTinkerKnightB_portrait"):
                     sprite = Image.open(file)
                     sPixels = sprite.load()
                     width = sprite.size[0] 
@@ -109,6 +109,38 @@ for f in os.listdir():
                                 if data[3]==0:
                                     sPixels[i,j] = spriteBackground
                     sprite.save(f"PortraitShovelKnight/Palette {paletteCounter+1}/{sprite.filename}") #Save the coloured sprite in the correct folder
+                    print(f"{sprite.filename} created!")
+
+                elif (f == "sPortraitPropellerKnightPalette_0.png" and file.startswith("sPropellerKnightB_portrait")):
+                    sprite = Image.open(file)
+                    sPixels = sprite.load()
+                    width = sprite.size[0] 
+                    height = sprite.size[1]
+                    for iteration in range(18):
+                        for i in range(0,width):#Loop through all pixels in a row
+                            for j in range(0,height): #Loop through all pixels in a column
+                                data = sPixels[i,j]
+                                if (data[0]==(iteration*3) and data[1]==(iteration*3) and data[2]==(iteration*3) and data[3]==255):
+                                    sPixels[i,j] = palettePixels[paletteCounter,iteration]
+                                if data[3]==0:
+                                    sPixels[i,j] = spriteBackground
+                    sprite.save(f"PortraitPropellerKnight/Palette {paletteCounter+1}/{sprite.filename}") #Save the coloured sprite in the correct folder
+                    print(f"{sprite.filename} created!")
+
+                elif (f == "sPortraitTinkerKnightPalette_0.png" and file.startswith("sTinkerKnightB_portrait")):
+                    sprite = Image.open(file)
+                    sPixels = sprite.load()
+                    width = sprite.size[0] 
+                    height = sprite.size[1]
+                    for iteration in range(18):
+                        for i in range(0,width):#Loop through all pixels in a row
+                            for j in range(0,height): #Loop through all pixels in a column
+                                data = sPixels[i,j]
+                                if (data[0]==(iteration*3) and data[1]==(iteration*3) and data[2]==(iteration*3) and data[3]==255):
+                                    sPixels[i,j] = palettePixels[paletteCounter,iteration]
+                                if data[3]==0:
+                                    sPixels[i,j] = spriteBackground
+                    sprite.save(f"PortraitTinkerKnight/Palette {paletteCounter+1}/{sprite.filename}") #Save the coloured sprite in the correct folder
                     print(f"{sprite.filename} created!")
 
 #Creating spritesheets and placing them in their respective folders
@@ -204,16 +236,16 @@ for sprite in os.listdir():
     #print(sprite)
     if "palette" in sprite.lower() or "knight" in sprite.lower() or "mona" in sprite.lower() or "portal" in sprite.lower() or "teleport" in sprite.lower() or "portbox" in sprite.lower():
         continue
-    if sprite.endswith("0.png") and portrait == "" and "port" in sprite.lower():
+    if sprite.endswith("0.png") and portrait == "" and ("port" in sprite.lower() or "idle" in sprite.lower() or "hurt" in sprite.lower()):
         portrait = Image.open(sprite)
         prev = sprite
-    elif sprite.endswith("0.png") and portrait != "" and "port" in sprite.lower():
+    elif sprite.endswith("0.png") and portrait != "" and ("port" in sprite.lower() or "idle" in sprite.lower() or "hurt" in sprite.lower()):
         print(f"Prev is {prev}")
         portrait.save(f"./Portraits/{prev[:-6]}.png")
         print(f"Created {prev[:-6]}.png")
         portrait = Image.open(sprite)
         prev = sprite
-    elif sprite.endswith(".png") and "port" in sprite.lower():
+    elif sprite.endswith(".png") and ("port" in sprite.lower() or "idle" in sprite.lower() or "hurt" in sprite.lower()):
         newPiece = Image.open(sprite)
         portrait.paste(newPiece, (0,0), newPiece)
         prev = sprite
